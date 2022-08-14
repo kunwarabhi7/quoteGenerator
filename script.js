@@ -13,10 +13,24 @@ let apiQuotes = [];
 
 const newQuote = () => {
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length) + 1]
-    authorText.textContent = quote.author;
+    if (!quote.author) {
+        authorText.textContent = 'Unknown';
+
+    } else {
+        authorText.textContent = quote.author;
+    }
+    if (quote.text.length > 70) {
+        quoteText.classList.add('long-quote')
+
+    } else {
+        quoteText.classList.remove('long-quote')
+    }
+
     quoteText.textContent = quote.text;
 
+
 }
+
 
 //Get Quotes from API
 
@@ -31,7 +45,19 @@ async function getQuotes() {
     }
 }
 
+
+// Tweet Quote
+
+const tweetQuote = () => {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
+    window.open(twitterUrl, '_blank');
+}
+
+newQuoteButton.addEventListener('click', newQuote)
+twitterButton.addEventListener('click', tweetQuote)
+
 //onLoad
 getQuotes();
+
 
 
